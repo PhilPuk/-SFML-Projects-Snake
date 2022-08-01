@@ -9,7 +9,7 @@ void Menu::initVariables()
 	this->videoMode.width = 1000;
 	this->videoMode.height = 800;
 		//Framerate
-	this->Framerate = 60;
+	this->Framerate = 30;
 
 	//Texts
 		//Text Title

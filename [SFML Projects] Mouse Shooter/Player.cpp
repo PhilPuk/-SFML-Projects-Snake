@@ -8,7 +8,7 @@ void Player::initVariables()
 	//Player movement
 	this->MoveSpeed_Player = this->player_size;
 
-	this->TimerMoveMax = 15.f;
+	this->TimerMoveMax = 7.5f;
 	this->TimerMove = this->TimerMoveMax;
 	this->ProgressiveSpeed = 1.f;
 	this->ProgressiveSpeed = 0.09f;
@@ -124,7 +124,7 @@ void Player::resetVariablesAfterGameOver(sf::RenderWindow* window)
 	this->dirLEFT = false;
 	this->dirRIGHT = false;
 
-	this->TimerMoveMax = 20.f;
+	this->TimerMoveMax = 7.5f;
 	this->TimerMove = this->TimerMoveMax;
 	this->ProgressiveSpeed = 1.f;
 

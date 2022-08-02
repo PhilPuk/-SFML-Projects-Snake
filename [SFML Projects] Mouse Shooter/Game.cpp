@@ -17,6 +17,8 @@ void Game::initVariables()
 	this->index_R = 1;
 	this->index_G = 1;
 	this->index_B = 1;
+
+	this->playerhitfruit = false;
 }
 
 void Game::initFont(sf::Font* font)
@@ -107,6 +109,8 @@ void Game::resetEndGame()
 	this->endGame = false;
 	this->endGame_ESC = false;
 	this->endGame_GameOver = false;
+
+	this->playerhitfruit = false;
 }
 
 void Game::resetAllVariables(sf::RenderWindow* window)
@@ -131,6 +135,7 @@ void Game::updatePlayerHeadFruitCollision()
 		//For debugging
 		//std::cout << "Player collision with fruit!\n";
 		//std::cout << this->score<<"\n";
+		this->playerhitfruit = true;
 	}
 }
 
@@ -147,6 +152,12 @@ void Game::run(sf::RenderWindow& window)
 	//If player loses show game over
 	if (this->endGame_GameOver)
 	{
+
+		//Game Over text
+		std::stringstream ssGameOver;
+		ssGameOver << "You ate yourself!\nYour Score: " << this->score << "\nPress space to continue!\n";
+		this->Text_GameOver.setString(ssGameOver.str());
+
 		this->renderGameOver(window);
 	}
 
@@ -185,45 +196,15 @@ void Game::updateEndGame()
 
 void Game::updateText()
 {
-	//Randomize color
-	if (this->Timer_RGB < this->Timer_RGBMAX)
+	if (this->playerhitfruit)
 	{
-		this->Timer_RGB += 1.f;
+		//Score
+		std::stringstream ssScore;
+		ssScore << "Score: " << this->score;
+		this->Text_Score.setString(ssScore.str());
+
+		this->playerhitfruit = false;
 	}
-	else
-	{
-		this->Timer_RGB = 0.f;
-		int addone = rand() % 30 + 1;
-		int addtwo = rand() % 30 + 1;
-		int addthree = rand() % 30 + 1;
-		this->index_R += addone;
-		this->index_G += addtwo;
-		this->index_B += addthree;
-
-		if (this->index_R > 255)
-		{
-			this->index_R = rand() % 255 + 1;
-		}
-		if (this->index_G > 255)
-		{
-			this->index_G = rand() % 255 + 1;
-		}
-		if (this->index_B > 255)
-		{
-			this->index_B = rand() % 255 + 1;
-		}
-	}
-		this->Text_Score.setOutlineColor(sf::Color(this->index_R, this->index_G, this->index_B, 255));
-
-	//Score
-	std::stringstream ssScore;
-	ssScore << "Score: " << this->score;
-	this->Text_Score.setString(ssScore.str());
-
-	//Game Over
-	std::stringstream ssGameOver;
-	ssGameOver << "You ate yourself!\nYour Score: " << this->score<<"\nPress space to continue!\n";
-	this->Text_GameOver.setString(ssGameOver.str());
 }
 
 void Game::update(sf::RenderWindow& window)

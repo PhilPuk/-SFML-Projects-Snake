@@ -339,7 +339,7 @@ void Player::updateBodyMovement()
 				tmpPos2 = this->sprite_body[i]->getPosition();
 				this->sprite_body[i]->setPosition(tmpPos);
 				//Brute force bug solution of invisible body part after instant double fruit pick up
-				//this->sprite_body[i]->setColor(sf::Color(255, 255, 255, 255));
+				this->sprite_body[i]->setColor(sf::Color(255, 255, 255, 255));
 				tmpPos = tmpPos2;
 
 				//Player body collision

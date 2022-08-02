@@ -48,6 +48,7 @@ private:
 
 	//Fruit
 	Fruit* fruit;
+	bool playerhitfruit;
 
 	//Bricks
 //	Bricks* bricks;

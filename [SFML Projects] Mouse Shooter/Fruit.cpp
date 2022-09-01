@@ -1,16 +1,14 @@
 #include "Fruit.h"
 
 //Private functions
-void Fruit::initVariables(sf::RenderWindow* window)
+void Fruit::initVariables(sf::Vector2u winSize)
 {
-	//Window
-	sf::Vector2u WinSize = window->getSize();
 
 	//Fruit
 	this->fruit_size = 50.f;
 
-	int tmp_x = WinSize.x / this->fruit_size;
-	int tmp_y = WinSize.y / this->fruit_size;
+	int tmp_x = winSize.x / this->fruit_size;
+	int tmp_y = winSize.y / this->fruit_size;
 
 	this->Index_Texture_Fruit = 0;
 
@@ -24,13 +22,13 @@ void Fruit::initVariables(sf::RenderWindow* window)
 
 	if (this->posX < 100.f)
 		this->posX = 100.f;
-	else if (this->posX > WinSize.x - 100.f)
-		this->posX = WinSize.x - 100.f;
+	else if (this->posX > winSize.x - 100.f)
+		this->posX = winSize.x - 100.f;
 
 	if (this->posY < 100.f)
 		this->posY = 100.f;
-	else if (this->posY > WinSize.y - 100.f)
-		this->posY = WinSize.y - 100.f;
+	else if (this->posY > winSize.y - 100.f)
+		this->posY = winSize.y - 100.f;
 
 	//Logic
 	this->FruitEaten = false;
@@ -52,25 +50,9 @@ void Fruit::initTexture()
 
 	if (!this->Texture_Fruit[4].loadFromFile("Textures/Fruit/fruit9.png"))
 		std::cout << " - ERROR::FRUIT::INITTEXTURE::Couldn't load texture: fruit9.png!\n";
-
-
-
-	/*
-	if (!this->Texture_Fruit[1].loadFromFile("Textures/Fruit/fruit1.jpg"))
-		std::cout << " - ERROR::FRUIT::INITTEXTURE::Couldn't load texture: fruit1.png!\n";
-
-	if (!this->Texture_Fruit[2].loadFromFile("Textures/Fruit/fruit2.jpg"))
-		std::cout << " - ERROR::FRUIT::INITTEXTURE::Couldn't load texture: fruit2.png!\n";
-
-	if (!this->Texture_Fruit[3].loadFromFile("Textures/Fruit/fruit3.jpg"))
-		std::cout << " - ERROR::FRUIT::INITTEXTURE::Couldn't load texture: fruit3.png!\n";
-
-	if (!this->Texture_Fruit[4].loadFromFile("Textures/Fruit/fruit4.jpg"))
-		std::cout << " - ERROR::FRUIT::INITTEXTURE::Couldn't load texture: fruit4.png!\n";
-		*/
 }
 
-void Fruit::initShape(sf::RenderWindow* window)
+void Fruit::initShape()
 {
 
 	this->sprite_head.setFillColor(sf::Color(255, 255, 255, 255));
@@ -81,11 +63,11 @@ void Fruit::initShape(sf::RenderWindow* window)
 }
 
 //Constructor / Destructor
-Fruit::Fruit(sf::RenderWindow* window)
+Fruit::Fruit(sf::Vector2u winSize)
 {
-	this->initVariables(window);
+	this->initVariables(winSize);
 	this->initTexture();
-	this->initShape(window);
+	this->initShape();
 }
 
 Fruit::~Fruit()
@@ -109,16 +91,13 @@ void Fruit::setFruitEaten(bool set)
 }
 
 //Functions
-void Fruit::CreateNewPos(sf::RenderWindow& window)
+void Fruit::CreateNewPos(sf::Vector2u winSize)
 {
 	if (this->FruitEaten)
 	{
-		//Window
-		sf::Vector2u WinSize = window.getSize();
-
 		//Random Spawn in block system
-		int tmp_x = WinSize.x / this->fruit_size;
-		int tmp_y = WinSize.y / this->fruit_size;
+		int tmp_x = winSize.x / this->fruit_size;
+		int tmp_y = winSize.y / this->fruit_size;
 
 		this->posX = static_cast<float>(rand() % tmp_x);
 		this->posY = static_cast<float>(rand() % tmp_y);
@@ -128,13 +107,13 @@ void Fruit::CreateNewPos(sf::RenderWindow& window)
 
 		if (this->posX < 100.f)
 			this->posX = 100.f;
-		else if (this->posX > WinSize.x - 100.f)
-			this->posX = WinSize.x - 100.f;
+		else if (this->posX > winSize.x - 100.f)
+			this->posX = winSize.x - 100.f;
 
 		if (this->posY < 100.f)
 			this->posY = 100.f;
-		else if (this->posY > WinSize.y - 100.f)
-			this->posY = WinSize.y - 100.f;
+		else if (this->posY > winSize.y - 100.f)
+			this->posY = winSize.y - 100.f;
 
 		//Reset bool
 		this->FruitEaten = false;
@@ -149,19 +128,19 @@ void Fruit::CreateNewPos(sf::RenderWindow& window)
 }
 
 //Update
-void Fruit::update(sf::RenderWindow& window)
+void Fruit::update(sf::Vector2u winSize)
 {
 	//If bool eaten true create new fruit pos
-	this->CreateNewPos(window);
+	this->CreateNewPos(winSize);
 }
 
 //Render
-void Fruit::renderFruit(sf::RenderWindow& window)
+void Fruit::renderFruit(sf::RenderTarget& target)
 {
-	window.draw(this->sprite_head);
+	target.draw(this->sprite_head);
 }
 
-void Fruit::render(sf::RenderWindow& window)
+void Fruit::render(sf::RenderTarget& target)
 {
-	this->renderFruit(window);
+	this->renderFruit(target);
 }

@@ -25,12 +25,12 @@ private:
 	bool FruitEaten;
 
 	//Private functions
-	void initVariables(sf::RenderWindow* window);
+	void initVariables(sf::Vector2u winSize);
 	void initTexture();
-	void initShape(sf::RenderWindow* window);
+	void initShape();
 public:
 	//Constructor / Destructor
-	Fruit(sf::RenderWindow* window);
+	Fruit(sf::Vector2u winSize);
 	virtual ~Fruit();
 
 	//Accessors
@@ -40,11 +40,11 @@ public:
 	void setFruitEaten(bool set);
 
 	//Functions
-	void CreateNewPos(sf::RenderWindow& window);
+	void CreateNewPos(sf::Vector2u winSize);
 		//Update
-	void update(sf::RenderWindow& window);
+	void update(sf::Vector2u winSize);
 		//Render
-	void renderFruit(sf::RenderWindow& window);
-	void render(sf::RenderWindow& window);
+	void renderFruit(sf::RenderTarget& target);
+	void render(sf::RenderTarget& target);
 };
 

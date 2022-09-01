@@ -1,5 +1,12 @@
 #include "Game.h"
 
+void Game::initWindow(sf::RenderWindow* window)
+{
+	this->window = window;
+
+	this->winSize = this->window->getSize();
+}
+
 //Private functions
 void Game::initVariables()
 {
@@ -54,7 +61,7 @@ void Game::initPlayer(sf::RenderWindow* window)
 
 void Game::initFruit(sf::RenderWindow* window)
 {
-	this->fruit = new Fruit(window);
+	this->fruit = new Fruit(this->winSize);
 }
 
 /*
@@ -76,6 +83,7 @@ void Game::initBackground(sf::Texture& background_texture)
 //Constructor / Destructor
 Game::Game(sf::RenderWindow* window, sf::Font& font, sf::Texture& background_texture)
 {
+	this->initWindow(window);
 	this->initVariables();
 	this->initFont(&font);
 	this->initTexts(window);
@@ -140,13 +148,13 @@ void Game::updatePlayerHeadFruitCollision()
 }
 
 //Functions
-void Game::run(sf::RenderWindow& window)
+void Game::run()
 {
-	while (window.isOpen() && !this->endGame)
+	while (this->window->isOpen() && !this->endGame)
 	{
-		this->update(window);
+		this->update();
 
-		this->render(window);
+		this->render();
 	}
 
 	//If player loses show game over
@@ -158,7 +166,7 @@ void Game::run(sf::RenderWindow& window)
 		ssGameOver << "You ate yourself!\nYour Score: " << this->score << "\nPress space to continue!\n";
 		this->Text_GameOver.setString(ssGameOver.str());
 
-		this->renderGameOver(window);
+		this->renderGameOver();
 	}
 
 	this->resetEndGame();
@@ -166,11 +174,11 @@ void Game::run(sf::RenderWindow& window)
 }
 
 //Update
-void Game::pollEvents(sf::RenderWindow& window)
+void Game::pollEvents()
 {
 	sf::Event ev;
 
-	while (window.pollEvent(ev))
+	while (this->window->pollEvent(ev))
 	{
 		switch (ev.type)
 		{
@@ -207,12 +215,12 @@ void Game::updateText()
 	}
 }
 
-void Game::update(sf::RenderWindow& window)
+void Game::update()
 {
-	this->pollEvents(window);
+	this->pollEvents();
 
 	//Player
-	this->player->update(window, this->score);
+	this->player->update(this->winSize, this->score);
 
 	//Get Game over
 	if (this->player->getHeadHitBody())
@@ -224,7 +232,7 @@ void Game::update(sf::RenderWindow& window)
 	this->updatePlayerHeadFruitCollision();
 
 	//Fruit
-	this->fruit->update(window);
+	this->fruit->update(this->winSize);
 
 	//Bricks
 	//this->bricks->update(window);
@@ -237,12 +245,12 @@ void Game::update(sf::RenderWindow& window)
 
 }
 
-void Game::renderGameOver(sf::RenderWindow& window)
+void Game::renderGameOver()
 {
 
-	window.draw(this->Text_GameOver);
+	this->window->draw(this->Text_GameOver);
 
-	window.display();
+	this->window->display();
 	bool keypressed = false;
 	while (!keypressed)
 	{
@@ -252,37 +260,35 @@ void Game::renderGameOver(sf::RenderWindow& window)
 	}
 }
 
-void Game::renderText(sf::RenderWindow& window)
+void Game::renderText()
 {
-	window.draw(this->Text_Score);
+	this->window->draw(this->Text_Score);
 }
 
-void Game::renderBackground(sf::RenderWindow& window)
+void Game::renderBackground()
 {
-	window.draw(this->Sprite_Background);
+	this->window->draw(this->Sprite_Background);
 }
 
 //Render
-void Game::render(sf::RenderWindow& window)
+void Game::render()
 {
-	window.clear();
+	this->window->clear();
 
 	//Background
-	this->renderBackground(window);
+	this->renderBackground();
 
 	//Fruit
-	this->fruit->render(window);
+	this->fruit->render(*this->window);
 
 	//Player
-	this->player->render(window);
+	this->player->render(*this->window);
 
 	//Bricks
 //	this->bricks->render(window);
 
 	//Texts
-	this->renderText(window);
+	this->renderText();
 
-
-
-	window.display();
+	this->window->display();
 }

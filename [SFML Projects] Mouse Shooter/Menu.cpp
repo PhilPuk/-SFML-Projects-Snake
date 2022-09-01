@@ -220,7 +220,7 @@ void Menu::pollEvents()
 				if (this->Menu_Navigation_Index == 0)
 				{
 					//Start button action
-					this->game->run(*this->window);
+					this->game->run();
 
 					if (this->game->getScore() > this->Highscore)
 						this->Highscore = this->game->getScore();

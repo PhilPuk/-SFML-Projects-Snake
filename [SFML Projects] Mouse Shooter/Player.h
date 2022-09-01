@@ -67,11 +67,11 @@ public:
 	void updatePlayerMovement();
 	void updatePlayerBodyCollision(int i);
 	void updateBodyMovement();
-	void updateWindowCollision(sf::RenderWindow& window);
-	void update(sf::RenderWindow& window, float& score);
+	void updateWindowCollision(sf::Vector2u& winSize);
+	void update(sf::Vector2u& winSize, float& score);
 		//Render
-	void renderPlayerBody(sf::RenderWindow& window);
-	void renderPlayerHead(sf::RenderWindow& window);
-	void render(sf::RenderWindow& window);
+	void renderPlayerBody(sf::RenderTarget& target);
+	void renderPlayerHead(sf::RenderTarget& target);
+	void render(sf::RenderTarget& target);
 };
 

@@ -350,7 +350,7 @@ void Player::updateBodyMovement()
 }
 
 //Update
-void Player::updateWindowCollision(sf::RenderWindow& window)
+void Player::updateWindowCollision(sf::Vector2u& winSize)
 {
 	/*
 	* If player reaches one end of the screen
@@ -360,10 +360,10 @@ void Player::updateWindowCollision(sf::RenderWindow& window)
 	//TOP to bottom
 	if (this->sprite_head.getGlobalBounds().top < 50.f)
 	{
-		this->sprite_head.setPosition(this->sprite_head.getPosition().x, window.getSize().y - this->player_size * 2);
+		this->sprite_head.setPosition(this->sprite_head.getPosition().x, winSize.y - this->player_size * 2);
 	}
 	//Bottom to top
-	else if (this->sprite_head.getPosition().y + this->player_size * 2 > window.getSize().y)
+	else if (this->sprite_head.getPosition().y + this->player_size * 2 > winSize.y)
 	{
 		this->sprite_head.setPosition(this->sprite_head.getPosition().x, 50.f);
 	}
@@ -371,16 +371,16 @@ void Player::updateWindowCollision(sf::RenderWindow& window)
 	//Left to right
 	if (this->sprite_head.getPosition().x < 50.f)
 	{
-		this->sprite_head.setPosition(window.getSize().x - this->player_size * 2, this->sprite_head.getPosition().y);
+		this->sprite_head.setPosition(winSize.x - this->player_size * 2, this->sprite_head.getPosition().y);
 	}
 	//Right to left
-	else if (this->sprite_head.getPosition().x + this->player_size * 2 > window.getSize().x)
+	else if (this->sprite_head.getPosition().x + this->player_size * 2 > winSize.x)
 	{
 		this->sprite_head.setPosition(50.f, this->sprite_head.getPosition().y);
 	}
 }
 
-void Player::update(sf::RenderWindow& window, float& score)
+void Player::update(sf::Vector2u& winSize, float& score)
 {
 	this->updateScore(score);
 
@@ -390,28 +390,28 @@ void Player::update(sf::RenderWindow& window, float& score)
 
 	this->updatePlayerMovement();
 
-	this->updateWindowCollision(window);
+	this->updateWindowCollision(winSize);
 }
 
 //Render
-void Player::renderPlayerBody(sf::RenderWindow& window)
+void Player::renderPlayerBody(sf::RenderTarget& target)
 {
 	for (int i = 0; i < this->sprite_body.size(); i++)
 	{
-		window.draw(*this->sprite_body[i]);
+		target.draw(*this->sprite_body[i]);
 	}
 }
 
-void Player::renderPlayerHead(sf::RenderWindow& window)
+void Player::renderPlayerHead(sf::RenderTarget& target)
 {
-	window.draw(this->sprite_head);
+	target.draw(this->sprite_head);
 }
 
-void Player::render(sf::RenderWindow& window)
+void Player::render(sf::RenderTarget& target)
 {
-	this->renderPlayerHead(window);
+	this->renderPlayerHead(target);
 
-	this->renderPlayerBody(window);
+	this->renderPlayerBody(target);
 
 
 }

@@ -18,6 +18,8 @@
 class Game
 {
 private:
+	sf::RenderWindow* window;
+	sf::Vector2u winSize;
 	//Logic
 	bool endGame;
 	bool endApplication;
@@ -54,6 +56,7 @@ private:
 //	Bricks* bricks;
 
 	//Private functions
+	void initWindow(sf::RenderWindow* window);
 	void initVariables();
 	void initFont(sf::Font* font);
 	void initTexts(sf::RenderWindow* window);
@@ -76,17 +79,17 @@ public:
 		//Game over
 	void resetAllVariables(sf::RenderWindow* window);
 		//Main Loop
-	void run(sf::RenderWindow& window);
+	void run();
 		//Update
-	void pollEvents(sf::RenderWindow& window);
+	void pollEvents();
 	void updatePlayerHeadFruitCollision();
 	void updateEndGame();
 	void updateText();
-	void update(sf::RenderWindow& window);
+	void update();
 		//Render
-	void renderGameOver(sf::RenderWindow& window);
-	void renderText(sf::RenderWindow& window);
-	void renderBackground(sf::RenderWindow& window);
-	void render(sf::RenderWindow& window);
+	void renderGameOver();
+	void renderText();
+	void renderBackground();
+	void render();
 };
 
